@@ -12,7 +12,7 @@ app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-app.get('/api/people', (req, res, next) => {
+app.get('/api/persons', (req, res, next) => {
     Person.find({})
         .then(people => {
             res.json(people.map(person => person.toJSON()))
@@ -20,7 +20,7 @@ app.get('/api/people', (req, res, next) => {
         .catch(error => next(error))
 })
 
-app.post('/api/people/', (req, res, next) => {
+app.post('/api/persons/', (req, res, next) => {
     const { name, number } = req.body
     if (!name) {
         return res.status(400).json({
@@ -51,7 +51,7 @@ app.post('/api/people/', (req, res, next) => {
         .catch(error => next(error))
 })
 
-app.get('/api/people/:id', (req, res, next) => {
+app.get('/api/persons/:id', (req, res, next) => {
     Person.findById(req.params.id)
         .then(person => {
             if (person) {
@@ -66,7 +66,7 @@ app.get('/api/people/:id', (req, res, next) => {
         })
 })
 
-app.put('/api/people/:id', (req, res, next) => {
+app.put('/api/persons/:id', (req, res, next) => {
     const body = req.body
 
     const person = {
@@ -80,7 +80,7 @@ app.put('/api/people/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-app.delete('/api/people/:id', (req, res, next) => {
+app.delete('/api/persons/:id', (req, res, next) => {
     Person.findByIdAndRemove(req.params.id)
         .then(() => {
             res.status(204).end()
